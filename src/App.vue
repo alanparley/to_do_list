@@ -6,8 +6,26 @@
       <input id="new-task" type="text" v-model="newTask" required />
       <input type="submit" value="Save New Task" />
     </form>
+    <input
+      type="radio"
+      id="high"
+      name="priority"
+      v-bind:value="true"
+      v-model="isPriority"
+    />
+    <label for="one">High</label>
+    <br />
+    <input
+      type="radio"
+      id="low"
+      name="priority"
+      v-bind:value="false"
+      v-model="isPriority"
+    />
+    <label for="two">Low</label>
+
     <ul>
-      <li v-for="task in tasks">
+      <li v-for="task in tasks" v-bind:class="task.isPriority ? 'high' : 'low'">
         <span>{{ task.name }}</span>
       </li>
     </ul>
@@ -19,16 +37,16 @@ export default {
   data() {
     return {
       tasks: [
-        { name: "Clean Bathroom", isDone: false },
-        { name: "Ironing", isDone: false },
-        { name: "Wash Floor", isDone: true },
+        { name: "Clean Bathroom", isPriority: false },
+        { name: "Ironing", isPriority: false },
+        { name: "Wash Floor", isPriority: true },
       ],
       newTask: "",
     };
   },
   methods: {
     saveNewTask: function () {
-      this.tasks.push({ name: this.newTask, isDone: false });
+      this.tasks.push({ name: this.newTask, isPriority: this.isPriority });
       this.newTask = "";
     },
   },
@@ -36,4 +54,19 @@ export default {
 </script>
 
 <style>
+#app {
+  width: 50%;
+  margin: 0 auto;
+  font-family: "Courier", sans-serif;
+}
+
+li.low {
+  border: 2px solid #1a681e;
+  color: #1a681e;
+}
+
+li.high {
+  border: 2px solid #f2360c;
+  color: #f2360c;
+}
 </style>
